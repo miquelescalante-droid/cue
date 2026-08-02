@@ -1,0 +1,4 @@
+{
+  "version": "0.2.6",
+  "changelog": "Fix mouse and keyboard being switched and implement partial device type setting in config"
+}
