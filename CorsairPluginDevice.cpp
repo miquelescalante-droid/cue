@@ -11,39 +11,6 @@
 
 using json = nlohmann::json;
 
-bool	IgnoreMouse;
-
-bool CorsairPluginDevice::ReadFromJson(const nlohmann::json& settings, const nlohmann::json& devices, bool clear)
-{
-	if (clear)
-	{
-		mDeviceInfo.zones.clear();
-		mDeviceInfo.ledMapping.clear();
-		mDeviceViews.clear();
-	}
-	try
-	{
-		GetDeviceInfoFromJson(settings, devices);
-		GetDeviceViewFromJson(settings, devices);
-
-		if (settings.contains("IgnoreMouse") && settings["IgnoreMouse"].contains("ignore"))
-		{
-			IgnoreMouse = settings["IgnoreMouse"]["ignore"];
-		}
-		else
-		{
-			IgnoreMouse = false; //Default to false
-		}
-
-	}
-	catch (...)
-	{
-		return false;
-	}
-
-	return true;
-}
-
 int deviceNum = 0; //We need to set a different device type for each device, otherwise the lighting effects will be applied to all devices at once
 
 cue::dev::plugin::DeviceInfo* CorsairPluginDevice::CreateDeviceInfo()
@@ -310,6 +277,27 @@ void CorsairPluginDevice::DestroyDeviceView(cue::dev::plugin::DeviceView* device
 	delete deviceView;
 }
 
+bool CorsairPluginDevice::ReadFromJson(const nlohmann::json& settings, const nlohmann::json& devices, bool clear)
+{
+	if (clear)
+	{
+		mDeviceInfo.zones.clear();
+		mDeviceInfo.ledMapping.clear();
+		mDeviceViews.clear();
+	}
+	try
+	{
+		GetDeviceInfoFromJson(settings, devices);
+		GetDeviceViewFromJson(settings, devices);
+
+	}
+	catch (...)
+	{
+		return false;
+	}
+
+	return true;
+}
 
 bool CorsairPluginDevice::ReadZonesFromJson(const json& zone)
 {
