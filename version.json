@@ -1,4 +1,4 @@
 {
-  "version": "0.2.6",
-  "changelog": "Fix mouse and keyboard being switched and implement partial device type setting in config"
+  "version": "0.3.0",
+  "changelog": "Add individual control for all devices and add update check in version.dll"
 }
