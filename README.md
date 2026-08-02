@@ -26,7 +26,7 @@ This plugin allows creating custom device layouts using json files and custom im
 ![Custom Device](/screenshots/custom_device_v4.PNG)
 
 # Files of Importance
-* `version.dll` - This is a wrapper dll to disable iCUE's signature check on plugins loaded from the Plugins folder. Normally iCUE will run WinVerifyTrust on all plugins it is attempting to load. I haven't determined whether it needs to be signed by Corsair specifically, this wrapper when placed in the Corsair iCUE program directory will disable this check entirely.
+* `version.dll` - This is a wrapper dll to disable iCUE's signature check on plugins loaded from the Plugins folder. Normally iCUE will run WinVerifyTrust on all plugins it is attempting to load. I haven't determined whether it needs to be signed by Corsair specifically, this wrapper when placed in the Corsair iCUE program directory will disable this check entirely. It will also check for new version of the plugin at startup and notify the user if a new version is available. 
 * `CUEORGBPlugin.dll` - This implements the OpenRGB Client interface and utilizes/merges json files to create devices
 * `settings.json` - This file specifies the default LED/Zone layout display of some devices in the event no specific device is found within `devices.json`
 * `devices.json` - This file maps devices by name given within OpenRGB and allows overriding the Default layout
@@ -71,17 +71,7 @@ You might want to start OpenRGB when you start windows as iCUE is also a Startup
 * ![Rect](/screenshots/rectangle.png)
 * To configure multiple zones, configure them like in the screenshot below.
 * ![Multiple Zones](/screenshots/multiple_zones.png)
-* The only option that you should pay attention to inside of the settings.json file is the "IgnoreMouse" option. If it is set to true, the 2nd connected device will already be the "headset" or "mousemat" type. This will cause the effects to only be changeable via "lighting link" or murals. If you set it to false, the 2nd connected device will be able to be controlled via individual effects and with the "lighting sync". It will however not appear in murals.
-* See the table below for some more info on IgnoreMouse.
-* ![JSON](/screenshots/settings2_json.png)
-
-| 1st Connected Device | 2nd Connected Device | 2nd Connected Device | 3rd and More |
-|----------------------|----------------------|----------------------|--------------|
-| IgnoreMouse: N/A | IgnoreMouse: False | IgnoreMouse: True | IgnoreMouse: N/A |
-| Individual Control: Yes | Individual Control: Yes | Individual Control: No | Individual Control: No |
-| Lighting Link: Yes | Lighting Link: Yes | Lighting Link: Yes | Lighting Link: Yes |
-| Murals: Yes | Murals: No | Murals: Yes | Murals: Yes |
-
+* Settings.json does not need to be changed.
 
 ---
 
@@ -89,8 +79,7 @@ You might want to start OpenRGB when you start windows as iCUE is also a Startup
 Should be no major dependencies, built with Visual Studio Community 2022.
 
 # Current bugs
-* Colors and effects can only be individually set on 2 devices. Every device over 2 devices will follow the lighting link effect(s). I assume that it is necessary to alter the CreadeDeviceInfo method to create devices with the other device types.
-* It is currently not possible to control which device will be one of the 2 which can be individually controlled. I'm working on making a config file where the user can specify which 2 devices should be the individually controlable ones. This workaround will have to exist until I figure out how to set more than 2 device types that work with all functions.
+* Devices with only one LED will still show up with two zones as the device will otherwise for some reason override all currently attached devices. Only one of the two zones will actually control the device, the other one is just there as a dummy. I'm not sure as to why this happens, but it seems to be an issue with the way iCUE handles devices with only one zone. If you have a device with only one zone, you can just ignore the second zone and it will not affect anything.
  
 # Thirdparty Projects used
 
