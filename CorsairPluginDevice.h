@@ -73,6 +73,12 @@ public:
 	typedef std::unordered_map<std::uint32_t, std::uint32_t> ResizeMap;
 	ResizeMap& GetResizeMap() { return mZoneResize; }
 
+	std::uint32_t mIdOffset = 0;
+	void SetIdOffset(std::uint32_t offset) { mIdOffset = offset; }
+
+	double mPositionOffsetX = 0;
+	void SetPositionOffsetX(double offset) { mPositionOffsetX = offset; }
+
 protected:
 
 	void GetDeviceInfoFromJson(const nlohmann::json& settings, const nlohmann::json& devices);
@@ -89,3 +95,7 @@ private:
 	DeviceInfo mDeviceInfo;
 	DeviceViews mDeviceViews;
 };
+
+
+
+

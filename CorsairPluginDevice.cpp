@@ -59,6 +59,8 @@ cue::dev::plugin::DeviceInfo* CorsairPluginDevice::CreateDeviceInfo()
 	//Headset and MouseMat can be used to control the lights, but only with the "lighting sync" option (e.g all devices will have the same lighting effects)
 	//The other device types don't seem to work, as the lights can't be controlled when using them
 
+	/*
+
 	if (deviceNum == 0) {
 		deviceInfo->deviceType = cue::dev::plugin::DeviceType::CDT_Keyboard;
 		deviceNum++;
@@ -79,7 +81,10 @@ cue::dev::plugin::DeviceInfo* CorsairPluginDevice::CreateDeviceInfo()
 	}
 
 	//This doesn't work, as said above, when you set all the device types to the same value, the lighting effects will be applied to all devices at once
-	//deviceInfo->deviceType = cue::dev::plugin::DeviceType::CDT_Keyboard; // We are using keyboard because it treats the polys as buttons and doesn't litter the screen with key buttons
+
+	*/
+
+	deviceInfo->deviceType = cue::dev::plugin::DeviceType::CDT_Keyboard; // We are using keyboard because it treats the polys as buttons and doesn't litter the screen with key buttons
 	
 	deviceInfo->numberOfDeviceView = static_cast<std::int32_t>(mDeviceViews.size());
 	if (mDeviceInfo.thumbnail.size())
@@ -355,7 +360,7 @@ bool CorsairPluginDevice::ReadZonesFromJson(const json& zone)
 		{
 			for (const auto& led : zone["LEDs"])
 			{
-				std::uint32_t ledId = led["Id"];
+				std::uint32_t ledId = led["Id"] + mIdOffset;
 				auto& ledData = mDeviceInfo.zones[zoneIndex].ledData[ledId];
 
 				auto& ledMapping = mDeviceInfo.ledMapping[ledId];
@@ -367,7 +372,7 @@ bool CorsairPluginDevice::ReadZonesFromJson(const json& zone)
 
 				if (led.contains("Position") && led["Position"].is_array())
 				{
-					ledData.x = led["Position"][0];
+					ledData.x = led["Position"][0] + mPositionOffsetX;
 					ledData.y = led["Position"][1];
 				}
 			}
@@ -377,9 +382,9 @@ bool CorsairPluginDevice::ReadZonesFromJson(const json& zone)
 	{
 		std::uint32_t multiplier = zone.value<std::uint32_t>("Multiplier", 1);
 
-		std::function<void(LEDData&, std::uint32_t, std::uint32_t, std::uint32_t)> patternFunc = [](LEDData& ledData, std::uint32_t led, std::uint32_t count, std::uint32_t multiplier)
+		std::function<void(LEDData&, std::uint32_t, std::uint32_t, std::uint32_t)> patternFunc = [offsetX = mPositionOffsetX](LEDData& ledData, std::uint32_t led, std::uint32_t count, std::uint32_t multiplier)
 		{
-			ledData.x = (std::sin(2 * M_PI * (led + 1) / count) + 1) * multiplier;
+			ledData.x = (std::sin(2 * M_PI * (led + 1) / count) + 1) * multiplier + offsetX;
 			ledData.y = (std::cos(2 * M_PI * (led + 1) / count) + 1) * multiplier;
 		};
 
@@ -387,31 +392,46 @@ bool CorsairPluginDevice::ReadZonesFromJson(const json& zone)
 		{
 			if (zone["Pattern"] == "LinearX")
 			{
-				patternFunc = [](LEDData& ledData, std::uint32_t led, std::uint32_t count, std::uint32_t multiplier)
+				patternFunc = [offsetX = mPositionOffsetX](LEDData& ledData, std::uint32_t led, std::uint32_t count, std::uint32_t multiplier)
 				{
-					ledData.x = ((double)led / (double)count) * multiplier;
+					ledData.x = ((double)led / (double)count) * multiplier + offsetX;
 					ledData.y = 0.0;
 				};
 			}
 			else if (zone["Pattern"] == "LinearY")
 			{
-				patternFunc = [](LEDData& ledData, std::uint32_t led, std::uint32_t count, std::uint32_t multiplier)
+				patternFunc = [offsetX = mPositionOffsetX](LEDData& ledData, std::uint32_t led, std::uint32_t count, std::uint32_t multiplier)
 				{
-					ledData.x = 0.0;
-					ledData.y = ((double)led / (double)count) * multiplier;
+						//ledData.x = 0.0;
+					ledData.x = offsetX;
+					ledData.y = ((double)led / (double)count) * multiplier ;
 				};
 			}
 		}
 
 		std::uint32_t ledCount = mController->zones[zoneIndex].leds_count;
-		for (std::uint32_t led = 0; led < ledCount; ++led)
+
+		constexpr std::uint32_t kMinReportedLeds = 2; // pad sparse devices so iCUE doesn't treat them as a "simple accessory"
+		std::uint32_t reportedCount = std::max(ledCount, kMinReportedLeds);
+
+		for (std::uint32_t led = 0; led < reportedCount; ++led)
 		{
-			std::uint32_t ledId = mController->zones[zoneIndex].start_idx + led + 1; // Plus one because 0 is invalid key
+			std::uint32_t realLedIndex = led % ledCount; // wrap virtual LEDs back onto the real ones
+			std::uint32_t ledId = mController->zones[zoneIndex].start_idx + led + 1 + mIdOffset;
+			auto& ledData = mDeviceInfo.zones[zoneIndex].ledData[ledId];
+			auto& ledMapping = mDeviceInfo.ledMapping[ledId];
+			ledMapping.first = zoneIndex;
+			ledMapping.second = realLedIndex;
+			patternFunc(ledData, led, reportedCount, multiplier);
+
+			/*
+			std::uint32_t ledId = mController->zones[zoneIndex].start_idx + led + 1 + mIdOffset; // Plus one because 0 is invalid key
 			auto& ledData = mDeviceInfo.zones[zoneIndex].ledData[ledId];
 			auto& ledMapping = mDeviceInfo.ledMapping[ledId];
 			ledMapping.first = zoneIndex;
 			ledMapping.second = led;
 			patternFunc(ledData, led, ledCount, multiplier);
+			*/
 		}
 	}
 

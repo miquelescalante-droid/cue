@@ -44,6 +44,21 @@ void OutputDebugMessage(const char* lpszFormat, ...)
 #define OutputDebugMessage(...)
 #endif
 
+
+/*
+#include <chrono>
+#include <string>
+
+void Log(const std::string& text) {
+	std::ofstream log("C:\\users\\Public\\Desktop\\cueorgb.log", std::ofstream::app | std::ofstream::out);
+	auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+		std::chrono::system_clock::now().time_since_epoch()).count();
+	auto p = std::chrono::system_clock::now();
+	auto t = std::chrono::system_clock::to_time_t(p);
+	log << text << ", Since Epoch: " << std::to_string(ms) << " time: " << std::ctime(&t) << std::endl;
+}
+*/
+
 std::unique_ptr<CorsairPluginDeviceManager> g_deviceManager;
 
 #ifdef C_PROPERTIES
@@ -137,12 +152,17 @@ void CorsairPluginFreeDeviceView(cue::dev::plugin::DeviceView* deviceView)
 void CorsairSubscribeForDeviceConnectionStatusChanges(void* context, _DeviceConnectionStatusChangeCallback deviceStatusCallback)
 {
 	OutputDebugMessage("CorsairSubscribeForDeviceConnectionStatusChanges: %08X - %08X", context, deviceStatusCallback);
+
+	//Log("DevMGR start");
+
 	g_deviceManager = std::make_unique<CorsairPluginDeviceManager>(context, deviceStatusCallback, 
 		GetImageHash,
 		GetDeviceHash,
 		GetLocalFile
 	);
+
 	g_deviceManager->Start();
+;
 }
 
 void CorsairPluginUnsubscribeFromDeviceStatusChanges()

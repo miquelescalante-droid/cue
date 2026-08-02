@@ -7,6 +7,21 @@
 
 #include <winver.h>
 
+#include <winhttp.h>
+#pragma comment(lib, "winhttp.lib")
+#include <Shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
+#include <json/json.hpp>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <algorithm>
+
+#include <shellapi.h>
+#pragma comment(lib, "shell32.lib")
+
+EXTERN_C IMAGE_DOS_HEADER __ImageBase;
+
 // Function Name     : GetFileVersionInfoA
 // Ordinal           : 1 (0x1)
 namespace P { BOOL(WINAPI* GetFileVersionInfoA)(LPCSTR lptstrFilename, DWORD dwHandle, DWORD dwLen, LPVOID lpData); }
@@ -198,7 +213,160 @@ DWORD WINAPI CUEHookThread(LPVOID Arg)
 	return 0;
 }
 
+static std::wstring Utf8ToWide(const std::string& str)
+{
+	if (str.empty()) return std::wstring();
+	int size = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.size(), nullptr, 0);
+	std::wstring result(size, L'\0');
+	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.size(), &result[0], size);
+	return result;
+}
 
+// Simple synchronous HTTPS GET. Returns false on any failure
+static bool HttpGet(const std::wstring& host, const std::wstring& path, std::string& outBody)
+{
+	bool ok = false;
+	HINTERNET hSession = WinHttpOpen(L"CUEORGBPlugin-Updater/1.0",
+		WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY,
+		WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0);
+	if (!hSession) return false;
+
+	// Don't let a hung connection block execution load indefinitely
+	WinHttpSetTimeouts(hSession, 5000, 5000, 5000, 5000);
+
+	HINTERNET hConnect = WinHttpConnect(hSession, host.c_str(), INTERNET_DEFAULT_HTTPS_PORT, 0);
+	if (hConnect)
+	{
+		HINTERNET hRequest = WinHttpOpenRequest(hConnect, L"GET", path.c_str(),
+			nullptr, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, WINHTTP_FLAG_SECURE);
+		if (hRequest)
+		{
+			if (WinHttpSendRequest(hRequest, WINHTTP_NO_ADDITIONAL_HEADERS, 0, WINHTTP_NO_REQUEST_DATA, 0, 0, 0) &&
+				WinHttpReceiveResponse(hRequest, nullptr))
+			{
+				std::string body;
+				DWORD dwSize = 0;
+				do
+				{
+					if (!WinHttpQueryDataAvailable(hRequest, &dwSize) || dwSize == 0)
+						break;
+
+					std::vector<char> buffer(dwSize);
+					DWORD dwDownloaded = 0;
+					if (!WinHttpReadData(hRequest, buffer.data(), dwSize, &dwDownloaded))
+						break;
+
+					body.append(buffer.data(), dwDownloaded);
+				} while (dwSize > 0);
+
+				outBody = body;
+				ok = !body.empty();
+			}
+			WinHttpCloseHandle(hRequest);
+		}
+		WinHttpCloseHandle(hConnect);
+	}
+	WinHttpCloseHandle(hSession);
+	return ok;
+}
+
+static std::vector<int> ParseVersion(const std::string& version)
+{
+	std::vector<int> parts;
+	std::stringstream ss(version);
+	std::string segment;
+	while (std::getline(ss, segment, '.'))
+	{
+		try { parts.push_back(std::stoi(segment)); }
+		catch (...) { parts.push_back(0); }
+	}
+	while (parts.size() < 3) parts.push_back(0);
+	return parts;
+}
+
+// Returns <0 if a<b, 0 if equal, >0 if a>b
+static int CompareVersions(const std::string& a, const std::string& b)
+{
+	auto pa = ParseVersion(a);
+	auto pb = ParseVersion(b);
+	for (size_t i = 0; i < (std::max)(pa.size(), pb.size()); ++i)
+	{
+		int va = i < pa.size() ? pa[i] : 0;
+		int vb = i < pb.size() ? pb[i] : 0;
+		if (va != vb) return va < vb ? -1 : 1;
+	}
+	return 0;
+}
+
+static void ShowUpdateDialog(bool localIsNewer, const std::string& localVersion, const std::string& remoteVersion, const std::string& changelog)
+{
+	std::wstring wLocal = Utf8ToWide(localVersion);
+	std::wstring wRemote = Utf8ToWide(remoteVersion);
+	std::wstring wChangelog = Utf8ToWide(changelog);
+
+	std::wstringstream message;
+	int result;
+
+	if (localIsNewer)
+	{
+		message << L"Your current version (v" << wLocal << L") is newer than the latest build (v" << wRemote << L").\n\n"
+			<< L"If this is a development build, you can ignore this message. Otherwise, contact Hepi34 on GitHub.\n\n"
+			<< L"Would you like to open the issues page?";
+
+		result = MessageBoxW(nullptr, message.str().c_str(), L"CUEORGBPlugin - Version Check", MB_YESNO | MB_ICONWARNING | MB_TOPMOST | MB_SETFOREGROUND);
+		if (result == IDYES)
+			ShellExecuteW(nullptr, L"open", L"https://github.com/Hepi34/CUEORGBPlugin/issues", nullptr, nullptr, SW_SHOWNORMAL);
+	}
+	else
+	{
+		message << L"Your current version (v" << wLocal << L") is older than the latest build (v" << wRemote << L").\n\n"
+			<< L"Please update to get the following changes:\n" << wChangelog << L"\n\n"
+			<< L"Would you like to open the releases page?";
+
+		result = MessageBoxW(nullptr, message.str().c_str(), L"CUEORGBPlugin - Update Available", MB_YESNO | MB_ICONWARNING | MB_TOPMOST | MB_SETFOREGROUND);
+		if (result == IDYES)
+			ShellExecuteW(nullptr, L"open", L"https://github.com/Hepi34/CUEORGBPlugin/releases", nullptr, nullptr, SW_SHOWNORMAL);
+	}
+}
+
+constexpr const char* CURRENT_VERSION = "0.3.0";
+
+DWORD WINAPI UpdateCheckThread(LPVOID)
+{
+
+	// iCUE loads version.dll more than once
+	// Only the first process to grab this mutex actually runs the check to avoid having multiple update dialogs pop up at once
+	// The mutex isn't destroyed on purpose as it will automatically be cleaned up when the process exits
+	HANDLE hMutex = CreateMutexW(nullptr, TRUE, L"CUEORGBPlugin_UpdateCheck");
+	if (!hMutex || GetLastError() == ERROR_ALREADY_EXISTS)
+		return 0;
+
+	std::string body;
+	if (!HttpGet(L"raw.githubusercontent.com", L"/Hepi34/CUEORGBPlugin/master/version.json", body))
+		return 0;
+
+	std::string remoteVersion, changelog;
+	try
+	{
+		auto j = nlohmann::json::parse(body);
+		remoteVersion = j.value("version", "");
+		changelog = j.value("changelog", "");
+	}
+	catch (...)
+	{
+		return 0;
+	}
+
+	if (remoteVersion.empty())
+		return 0;
+
+	int cmp = CompareVersions(CURRENT_VERSION, remoteVersion);
+	if (cmp == 0)
+		return 0;
+
+	ShowUpdateDialog(cmp > 0, CURRENT_VERSION, remoteVersion, changelog);
+	return 0;
+}
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 {
@@ -236,7 +404,10 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD fdwReason, LPVOID lpReserved)
 			//CUEHookThread(nullptr);
 			CreateThread(nullptr, 0, CUEHookThread, nullptr, 0, nullptr);
 			//This dll has to be loaded on a speerate thread because it is loaded before the dll we're trying to modify
-			
+
+			CreateThread(nullptr, 0, UpdateCheckThread, nullptr, 0, nullptr);
+			//This thread checks for updates and needs to be seperated from the bypass as the bypass can fail and thus need a new version
+						
 		break;
 
 	case DLL_PROCESS_DETACH:

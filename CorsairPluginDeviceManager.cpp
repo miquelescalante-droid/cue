@@ -214,12 +214,20 @@ void CorsairPluginDeviceManager::ConnectDevices()
 {
 	std::lock_guard<std::mutex> deviceLock(mDeviceLock);
 
+	int runningOffset = 0;
+	double runningPositionOffsetX = 0;
+
 	std::unordered_set<std::string> deviceUpdate;
 	for (auto controller : mControllerList)
 	{
 		std::unique_ptr<CorsairPluginDevice> device = std::make_unique<CorsairPluginDevice>(controller);
 		device->SetImageHasher(mImageHasher);
 		device->SetDeviceHasher(mDeviceHasher);
+		runningOffset += 50; 
+		device->SetIdOffset(runningOffset);
+		runningPositionOffsetX += 50;
+		device->SetPositionOffsetX(runningPositionOffsetX);
+
 		if (device->ReadFromJson(mSettings, mDevices))
 		{
 			// Device needs a resize, send the resize packet and re-request the controller data
@@ -254,6 +262,7 @@ void CorsairPluginDeviceManager::ConnectDevices()
 	}
 }
 
+
 void CorsairPluginDeviceManager::DisconnectDevices()
 {
 	std::lock_guard<std::mutex> deviceLock(mDeviceLock);
@@ -264,3 +273,4 @@ void CorsairPluginDeviceManager::DisconnectDevices()
 	}
 	mDeviceMap.clear();
 }
+
