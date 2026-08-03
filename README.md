@@ -1,6 +1,8 @@
 # CUEORGBPlugin
  Custom iCUE plugin to control OpenRGB from within iCUE
 
+ This project was started by @expired6978. Credit for the hard work reverse engineering the CUESDK goes to him. I have since taken over the project and am maintaining it to make it work with newer versions of iCUE. Further, I have fixed a bug where all devices would share the same effect and have also added an auto-update check.
+
  * [Getting started](#getting-started)
  * [Description](#description)
  * [Files of importance](#files-of-importance)
@@ -76,7 +78,7 @@ You might want to start OpenRGB when you start windows as iCUE is also a Startup
 ---
 
 # Compiling
-Should be no major dependencies, built with Visual Studio Community 2022.
+Should be no major dependencies, built with Visual Studio Community 2026.
 
 # Current bugs
 * Devices with only one LED will still show up with two zones as the device will otherwise for some reason override all currently attached devices. Only one of the two zones will actually control the device, the other one is just there as a dummy. I'm not sure as to why this happens, but it seems to be an issue with the way iCUE handles devices with only one zone. If you have a device with only one zone, you can just ignore the second zone and it will not affect anything.
