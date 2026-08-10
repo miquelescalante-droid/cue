@@ -129,7 +129,9 @@
       <PreprocessorDefinitions>_DEBUG;WRAPPER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\thirdparty\MinHook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+        <AdditionalIncludeDirectories>$(ProjectDir)..\thirdparty\MinHook\include;$(ProjectDir)..\thirdparty;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

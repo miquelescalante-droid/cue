@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B6B1125B-DED4-4315-AFA8-B0A0481F1D73}|version_wrapper\\version_wrapper.vcxproj|C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\version_wrapper\\dllmain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B6B1125B-DED4-4315-AFA8-B0A0481F1D73}|version_wrapper\\version_wrapper.vcxproj|solutionrelative:version_wrapper\\dllmain.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B2F37547-0FA2-47AB-89D1-4FF2333C9B3F}|CUEORGBPluginGUI\\CUEORGBPluginGUI.csproj|c:\\users\\noahj\\onedrive\\dokumente\\visual studio 2022\\repos\\cueorgbplugin\\cueorgbplugingui\\cueorgbplugingui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2F37547-0FA2-47AB-89D1-4FF2333C9B3F}|CUEORGBPluginGUI\\CUEORGBPluginGUI.csproj|solutionrelative:cueorgbplugingui\\cueorgbplugingui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B71258E2-6D34-419A-82C0-E6F822E57902}|CUEORGBPlugin.vcxproj|C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDevice.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B71258E2-6D34-419A-82C0-E6F822E57902}|CUEORGBPlugin.vcxproj|solutionrelative:CorsairPluginDevice.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B2F37547-0FA2-47AB-89D1-4FF2333C9B3F}|CUEORGBPluginGUI\\CUEORGBPluginGUI.csproj|c:\\users\\noahj\\onedrive\\dokumente\\visual studio 2022\\repos\\cueorgbplugin\\cueorgbplugingui\\orgbinstaller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B2F37547-0FA2-47AB-89D1-4FF2333C9B3F}|CUEORGBPluginGUI\\CUEORGBPluginGUI.csproj|solutionrelative:cueorgbplugingui\\orgbinstaller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2F37547-0FA2-47AB-89D1-4FF2333C9B3F}|CUEORGBPluginGUI\\CUEORGBPluginGUI.csproj|C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\cueorgbplugingui\\cueorgbplugingui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{B2F37547-0FA2-47AB-89D1-4FF2333C9B3F}|CUEORGBPluginGUI\\CUEORGBPluginGUI.csproj|solutionrelative:cueorgbplugingui\\cueorgbplugingui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B71258E2-6D34-419A-82C0-E6F822E57902}|CUEORGBPlugin.vcxproj|C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDeviceManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{B71258E2-6D34-419A-82C0-E6F822E57902}|CUEORGBPlugin.vcxproj|solutionrelative:CorsairPluginDeviceManager.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B71258E2-6D34-419A-82C0-E6F822E57902}|CUEORGBPlugin.vcxproj|C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDevice.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{B71258E2-6D34-419A-82C0-E6F822E57902}|CUEORGBPlugin.vcxproj|solutionrelative:CorsairPluginDevice.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{B71258E2-6D34-419A-82C0-E6F822E57902}|CUEORGBPlugin.vcxproj|C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDevice.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{B71258E2-6D34-419A-82C0-E6F822E57902}|CUEORGBPlugin.vcxproj|solutionrelative:CorsairPluginDevice.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,59 +30,69 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "dllmain.cpp",
-              "DocumentMoniker": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\version_wrapper\\dllmain.cpp",
-              "RelativeDocumentMoniker": "version_wrapper\\dllmain.cpp",
-              "ToolTip": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\version_wrapper\\dllmain.cpp",
-              "RelativeToolTip": "version_wrapper\\dllmain.cpp",
-              "ViewState": "AgIAACYBAAAASHo1QCn9vywBAACQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-02T12:19:46.373Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CorsairPluginDevice.h",
-              "DocumentMoniker": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDevice.h",
-              "RelativeDocumentMoniker": "CorsairPluginDevice.h",
-              "ToolTip": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDevice.h",
-              "RelativeToolTip": "CorsairPluginDevice.h",
-              "ViewState": "AgIAADYAAAAAAAAAAAAAAE8AAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-08-02T10:13:44.898Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "CorsairPluginDeviceManager.cpp",
-              "DocumentMoniker": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDeviceManager.cpp",
-              "RelativeDocumentMoniker": "CorsairPluginDeviceManager.cpp",
-              "ToolTip": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDeviceManager.cpp",
-              "RelativeToolTip": "CorsairPluginDeviceManager.cpp",
-              "ViewState": "AgIAAMIAAAAAAAAAAAAkwOQAAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-02T10:00:22.741Z",
+              "Title": "CUEORGBPluginGUI.cs [Entwurf]",
+              "DocumentMoniker": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CUEORGBPluginGUI\\CUEORGBPluginGUI.cs",
+              "RelativeDocumentMoniker": "CUEORGBPluginGUI\\CUEORGBPluginGUI.cs",
+              "ToolTip": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CUEORGBPluginGUI\\CUEORGBPluginGUI.cs [Entwurf]",
+              "RelativeToolTip": "CUEORGBPluginGUI\\CUEORGBPluginGUI.cs [Entwurf]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T22:57:39.6Z",
+              "EditorCaption": " [Entwurf]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CUEORGBPluginGUI.cs",
+              "DocumentMoniker": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CUEORGBPluginGUI\\CUEORGBPluginGUI.cs",
+              "RelativeDocumentMoniker": "CUEORGBPluginGUI\\CUEORGBPluginGUI.cs",
+              "ToolTip": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CUEORGBPluginGUI\\CUEORGBPluginGUI.cs",
+              "RelativeToolTip": "CUEORGBPluginGUI\\CUEORGBPluginGUI.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAAwD4AAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T21:14:47.268Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ORGBinstaller.cs",
+              "DocumentMoniker": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CUEORGBPluginGUI\\ORGBinstaller.cs",
+              "RelativeDocumentMoniker": "CUEORGBPluginGUI\\ORGBinstaller.cs",
+              "ToolTip": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CUEORGBPluginGUI\\ORGBinstaller.cs",
+              "RelativeToolTip": "CUEORGBPluginGUI\\ORGBinstaller.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAQwCsAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-08-08T22:36:43.045Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CorsairPluginDeviceManager.cpp",
+              "DocumentMoniker": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDeviceManager.cpp",
+              "RelativeDocumentMoniker": "CorsairPluginDeviceManager.cpp",
+              "ToolTip": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDeviceManager.cpp",
+              "RelativeToolTip": "CorsairPluginDeviceManager.cpp",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAAADUAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-02T10:00:22.741Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "CorsairPluginDevice.cpp",
               "DocumentMoniker": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDevice.cpp",
               "RelativeDocumentMoniker": "CorsairPluginDevice.cpp",
               "ToolTip": "C:\\Users\\noahj\\OneDrive\\Dokumente\\Visual Studio 2022\\repos\\CUEORGBPlugin\\CorsairPluginDevice.cpp",
               "RelativeToolTip": "CorsairPluginDevice.cpp",
-              "ViewState": "AgIAAIkBAAAAAAAAAAAkwKMBAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAAAsBAAAAAAAAAAAQwBwBAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-08-02T10:00:21.336Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-02T10:00:21.336Z"
             }
           ]
         }
