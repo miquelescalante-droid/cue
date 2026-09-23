@@ -1,0 +1,27 @@
+name: Compilar Instalador .NET 10
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Configurar .NET 10
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Compilar y Empaquetar en un solo EXE
+      run: dotnet publish -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true -o ./output
+
+    - name: Subir el archivo compilado ejecutable
+      uses: actions/upload-artifact@v4
+      with:
+        name: Instalador-EXE-Listo
+        path: ./output/*.exe
